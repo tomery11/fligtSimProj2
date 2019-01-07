@@ -3,4 +3,4 @@ project(fligtSimProj2)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(fligtSimProj2 main.cpp)
+add_executable(fligtSimProj2 main.cpp Server.h MySerialServer.cpp MySerialServer.h)
