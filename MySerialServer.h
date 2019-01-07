@@ -9,8 +9,8 @@
 
 using namespace server_side;
 
-class MySerialServer : Server {
-    virtual void open(int port);
+class MySerialServer : public Server {
+    virtual void open(int port, ClientHandler clientHandler);
     virtual void stop();
 };
 
