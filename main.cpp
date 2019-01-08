@@ -1,6 +1,9 @@
 #include <iostream>
+#include "Main.h"
 
-int main() {
-    std::cout << "Hello, World!" << std::endl;
+// using namespace boot;
+int main(int argc, char *argv[]) {
+    Main maini;
+    maini.main(argc, argv);
     return 0;
 }

@@ -5,9 +5,14 @@
 #ifndef FLIGTSIMPROJ2_CLIENTHANDLER_H
 #define FLIGTSIMPROJ2_CLIENTHANDLER_H
 
+//handle a single client
 class ClientHandler {
+protected:
+    bool stopTalking;
 public:
-    virtual void handleClient() = 0;
+    virtual void handleClient(int socket) = 0;
+    virtual void setStopTalking(bool flag) = 0;
+    virtual bool getStopTalking() = 0;
 };
 
 #endif //FLIGTSIMPROJ2_CLIENTHANDLER_H

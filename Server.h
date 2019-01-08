@@ -10,7 +10,7 @@ namespace server_side {
     //interface for the server
     class Server {
     public:
-        virtual void open(int port, ClientHandler clientHandler) = 0;
+        virtual void open(int port, ClientHandler *clientHandler) = 0;
         virtual void stop() = 0;
     };
 }

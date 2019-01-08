@@ -7,6 +7,6 @@
 
 template<class Problem, class Solution> class Solver {
 public:
-    virtual Solution solve() = 0;
+    virtual Solution solve(Problem problem) = 0;
 };
 #endif //FLIGTSIMPROJ2_SOLVER_H

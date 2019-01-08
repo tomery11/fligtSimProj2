@@ -5,8 +5,10 @@
 #ifndef FLIGTSIMPROJ2_CACHEMANAGER_H
 #define FLIGTSIMPROJ2_CACHEMANAGER_H
 
+//using namespace std;
 
-template<class Problem, class Solution> class CacheManager {
+template<class Problem, class Solution>
+class CacheManager {
 public:
     virtual bool hasSolutionForProblem(Problem problem) = 0;
     virtual Solution getSolutionForProblem(Problem problem) = 0;

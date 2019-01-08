@@ -9,8 +9,17 @@
 
 using namespace server_side;
 
+//the struct the server thread will get
+struct ServerData {
+    int port;
+    int socketDescriptor;
+    int addrlen;
+    struct sockaddr_in *address;
+    ClientHandler *clientHandler;
+};
+
 class MySerialServer : public Server {
-    virtual void open(int port, ClientHandler clientHandler);
+    virtual void open(int port, ClientHandler *clientHandler);
     virtual void stop();
 };
 
