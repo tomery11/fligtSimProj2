@@ -37,12 +37,12 @@ void MyTestClientHandler::handleClient(int socket) {
         if (n < 0) {
             throw "write to socket failed";
         }
-    } else { //end
-        this->setStopTalking(true);
+    //} else { //end
+        //this->setStopTalking(true);
     }
 }
 
-//true when should stop talking, false otherwise
+/*/true when should stop talking, false otherwise
 bool MyTestClientHandler::getStopTalking() {
     return this->stopTalking;
 }
@@ -50,6 +50,7 @@ bool MyTestClientHandler::getStopTalking() {
 void MyTestClientHandler::setStopTalking(bool flag) {
     this->stopTalking = flag;
 }
+*/
 
 MyTestClientHandler::MyTestClientHandler(Solver<string, string> *solver, CacheManager<string, string> *cacheManager) {
     this->solver = solver;

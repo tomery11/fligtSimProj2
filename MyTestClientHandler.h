@@ -18,8 +18,8 @@ public:
     MyTestClientHandler(Solver<string, string> *solver, CacheManager<string, string> *cacheManager);
     //todo get input stream and output stream in handleClient
     virtual void handleClient(int socket);
-    virtual void setStopTalking(bool flag);
-    virtual bool getStopTalking();
+    //virtual void setStopTalking(bool flag);
+    //virtual bool getStopTalking();
 };
 
 
