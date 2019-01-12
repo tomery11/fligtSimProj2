@@ -14,6 +14,8 @@
 #include "Solver.h"
 #include "StringReverser.h"
 #include <string>
+#include <iostream>
+#include <unistd.h>
 
 using namespace std;
 
@@ -21,30 +23,32 @@ using namespace std;
 //template class FileCacheManager<string,string>;
 
 //int boot::Main::main(int argc, char *argv[]) {
-int Main::main(int argc, char *argv[]) {
-    //create a server: MySerialServer
-    Server *myServer = new MySerialServer();
+int Main::main(int argc, char *argv[]) {//todo no new
+    try {
+        cout << "Main" << endl;
+        //create a server: MySerialServer
+        MySerialServer server;
+        Server *myServer = &server;
 
-    //create a cache manager
-    //CacheManager<string, string> *cacheManager = new FileCacheManager<string, string>();
-    FileCacheManager<string, string> fcm;
-    CacheManager<string,string> *cacheManager = &fcm;
+        cout << "Main after server" << endl;
+        //create a cache manager
+        FileCacheManager fcm;
+        CacheManager<string,string> *cacheManager = &fcm;
+        cout << "Main after cache" << endl;
+        //create solver
+        StringReverser stringRev;
+        Solver<string, string> *solver = &stringRev;
 
-    //create solver
-    Solver<string, string> *solver = new StringReverser();
-
-    //create client handler
-    ClientHandler *clientHandler = new MyTestClientHandler(solver, cacheManager);
-    myServer->open(atoi(argv[1]), clientHandler);
-
-    //delete
-    delete myServer;
-    myServer = nullptr;
-    delete cacheManager;
-    cacheManager = nullptr;
-    delete solver;
-    solver = nullptr;
-    delete clientHandler;
-    clientHandler = nullptr;
-    return 0;
+        //create client handler
+        MyTestClientHandler testClient(solver, cacheManager);
+        ClientHandler *clientHandler = &testClient;
+        int port = atoi(argv[1]);
+        cout << "port: " << port << endl;
+        myServer->open(port, clientHandler);
+        sleep(1);
+        myServer->stop();
+        return 0;
+    } catch (const char *exception) {
+        printf("%s",exception);
+    }
 }

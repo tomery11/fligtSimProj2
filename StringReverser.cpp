@@ -12,3 +12,7 @@ string StringReverser::solve(string problem) {
     }
     return reverse;
 }
+
+string StringReverser::ProblemToString(string problem) {
+    return problem;
+}

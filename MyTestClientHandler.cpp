@@ -22,17 +22,20 @@ void MyTestClientHandler::handleClient(int socket) {
     }
     //end of talking if client sent "end"
     if (strcmp(inputBuffer, "end") != 0) {
+        memset(outputBuffer, 0, BUFFER_LENGTH);
         //ask the cache manager for a saved solution
         if (this->cacheManager->hasSolutionForProblem(inputBuffer)) {
             //set the solution to the buffer
-            memset(outputBuffer, 0, BUFFER_LENGTH);
             solutionStr = this->cacheManager->getSolutionForProblem(inputBuffer);
             strcpy(outputBuffer, solutionStr.c_str());
-            //Send solution to the server
-            n = write(socket, outputBuffer, strlen(outputBuffer));
-            if (n < 0) {
-                throw "write to socket failed";
-            }
+        } else { //if there is none, send for the solver
+            solutionStr = this->solver->solve(inputBuffer);
+            strcpy(outputBuffer, solutionStr.c_str());
+        }
+        //Send solution to the server
+        n = write(socket, outputBuffer, strlen(outputBuffer));
+        if (n < 0) {
+            throw "write to socket failed";
         }
     } else { //end
         this->setStopTalking(true);

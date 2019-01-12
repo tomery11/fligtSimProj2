@@ -9,21 +9,16 @@
 #include <unordered_map>
 using namespace std;
 
-template<class Problem, class Solution>
-class FileCacheManager : public CacheManager<Problem, Solution> {
-    unordered_map<Problem, Solution> problemsSolutions;
+class FileCacheManager : public CacheManager<string, string> {
+    unordered_map<string, string> problemsSolutions;
     string file = "problemsSolutions.txt";
     void saveAllToDisk();
     void getAllFromDisk();
 public:
-    //virtual bool hasSolutionForProblem(Problem problem) = 0;
-    //virtual Solution getSolutionForProblem(Problem problem) = 0;
-    //virtual void save(Problem problem, Solution solution) = 0;
-
     FileCacheManager();
-    virtual bool hasSolutionForProblem(Problem problem);
-    virtual Solution getSolutionForProblem(Problem problem);
-    virtual void save(Problem problem, Solution solution);
+    virtual bool hasSolutionForProblem(string problem);
+    virtual string getSolutionForProblem(string problem);
+    virtual void save(string problem, string solution);
     ~FileCacheManager();
 };
 

@@ -6,13 +6,13 @@
 #include <vector>
 #include <sstream>
 #include <utility>
+#include <iostream>
 #include "FileCacheManager.h"
 #define NO_FILE_ERR 2
 
 using namespace std;
 
-template<class Problem, class Solution>
-bool FileCacheManager<Problem, Solution>::hasSolutionForProblem(Problem problem) {
+bool FileCacheManager::hasSolutionForProblem(string problem) {
     if (this->problemsSolutions.find(problem) == this->problemsSolutions.end()) {
         return false;
     }
@@ -20,8 +20,7 @@ bool FileCacheManager<Problem, Solution>::hasSolutionForProblem(Problem problem)
 }
 
 //get the saved solution for a given problem. if there is none, return null.
-template<class Problem, class Solution>
-Solution FileCacheManager<Problem, Solution>::getSolutionForProblem(Problem problem) {
+string FileCacheManager::getSolutionForProblem(string problem) {
     if (!hasSolutionForProblem(problem)) {
         return nullptr;
     }
@@ -31,14 +30,13 @@ Solution FileCacheManager<Problem, Solution>::getSolutionForProblem(Problem prob
 }
 
 //put a problem solution pair to the map
-template<class Problem, class Solution>
-void FileCacheManager<Problem, Solution>::save(Problem problem, Solution solution) {
-    this->problemsSolutions.insert(pair<Problem, Solution>(problem, solution));
+void FileCacheManager::save(string problem, string solution) {
+    this->problemsSolutions.insert(pair<string, string>(problem, solution));
 }
 
 //save to file. format: problem$solution$problem$solution$...
-template<class Problem, class Solution>
-void FileCacheManager<Problem, Solution>::saveAllToDisk() {
+
+void FileCacheManager::saveAllToDisk() {
     //open the file
     fstream file(this->file);
     string pair;
@@ -55,7 +53,7 @@ void FileCacheManager<Problem, Solution>::saveAllToDisk() {
     if (file.is_open()) {
         //go over the map and put in file, with "$" as delimiter.
         for(auto it : this->problemsSolutions){
-            file << it.first << "$" << it.second << "$";
+            file << it.first << "$" << it.second << "$";//todo not only string
             //cout<<' '<<*it<<endl;
         }
     }
@@ -77,14 +75,17 @@ void parseByDelimiter(string inputStr, string token, vector<string> *outputVec) 
     }
 }
 
-template<class Problem, class Solution>
-void FileCacheManager<Problem, Solution>::getAllFromDisk() {
+void FileCacheManager::getAllFromDisk() {
     //open the file
     fstream file(this->file, fstream::in);
     stringstream buffer;
     vector<string> inputVec;
-        //if failed
+    //if failed
     if (file.fail()) {
+        //if no such file or directory, no need to upload; return
+        if (errno == NO_FILE_ERR) {
+            return;
+        } //else, other error so throw an exception
         throw "bad file";
     }
     //if open, get all the problems and solutions to the map
@@ -98,22 +99,18 @@ void FileCacheManager<Problem, Solution>::getAllFromDisk() {
     //put the problems and solutions from file to the map
     for(auto it=inputVec.begin(); it!=inputVec.end(); ++it){
         //put in map. assume parity of inputVec length
-        this->problemsSolutions.insert(pair<string,string>(*it, *(++it)));
+        this->problemsSolutions.insert(pair<string,string>(*it, *(++it)));//todo not only string
         //cout<<' '<<*it<<endl;
     }
 }
 
-template<class Problem, class Solution>
-FileCacheManager<Problem, Solution>::~FileCacheManager() {
+FileCacheManager::~FileCacheManager() {
     //save the map to disk
     this->saveAllToDisk();
 }
 
-template<class Problem, class Solution>
-FileCacheManager<Problem, Solution>::FileCacheManager() {
+FileCacheManager::FileCacheManager() {
+    cout << "file cache manager constructor" << endl;
     //get all problems and solutions from file
     this->getAllFromDisk();
 }
-
-template class CacheManager<string,string>;
-template class FileCacheManager<string,string>;

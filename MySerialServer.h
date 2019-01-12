@@ -6,6 +6,8 @@
 #define FLIGTSIMPROJ2_MYSERIALSERVER_H
 
 #include "Server.h"
+#include <pthread.h>
+
 
 using namespace server_side;
 
@@ -13,12 +15,17 @@ using namespace server_side;
 struct ServerData {
     int port;
     int socketDescriptor;
-    int addrlen;
-    struct sockaddr_in *address;
     ClientHandler *clientHandler;
+    bool *setStop;
 };
 
 class MySerialServer : public Server {
+    //int threadIDNum;
+    pthread_t threadID;
+    bool setStop = false;
+    int socketDescriptor;
+    struct ServerData *serverData;
+public:
     virtual void open(int port, ClientHandler *clientHandler);
     virtual void stop();
 };
