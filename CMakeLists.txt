@@ -10,4 +10,4 @@ add_executable(fligtSimProj2 main.cpp Main.cpp Main.h Server.h MySerialServer.cp
             ClientHandler.h MyTestClientHandler.cpp MyTestClientHandler.h
             Solver.h CacheManager.cpp CacheManager.h
             FileCacheManager.cpp FileCacheManager.h StringReverser.cpp
-            StringReverser.h)
+            StringReverser.h ISearcher.h ISearchable.h)
