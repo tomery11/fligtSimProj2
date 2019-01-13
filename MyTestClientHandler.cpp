@@ -8,6 +8,7 @@
 #define BUFFER_LENGTH 512
 
 //talk with a client. client write first, client handler send a replay
+//client send string problem and this return string solution until client send "end"
 void MyTestClientHandler::handleClient(int socket) {
     //get a problem from client
     char inputBuffer[BUFFER_LENGTH + 1];
@@ -21,7 +22,7 @@ void MyTestClientHandler::handleClient(int socket) {
         throw "read failed";
     }
     //end of talking if client sent "end"
-    if (strcmp(inputBuffer, "end") != 0) {
+    while (strcmp(inputBuffer, "end") != 0) {
         memset(outputBuffer, 0, BUFFER_LENGTH);
         //ask the cache manager for a saved solution
         if (this->cacheManager->hasSolutionForProblem(inputBuffer)) {
@@ -36,6 +37,12 @@ void MyTestClientHandler::handleClient(int socket) {
         n = write(socket, outputBuffer, strlen(outputBuffer));
         if (n < 0) {
             throw "write to socket failed";
+        }
+        //read
+        memset(inputBuffer, 0, BUFFER_LENGTH);
+        n = read(socket, inputBuffer, BUFFER_LENGTH);
+        if (n < 0) {
+            throw "read failed";
         }
     //} else { //end
         //this->setStopTalking(true);
