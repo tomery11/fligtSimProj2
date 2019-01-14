@@ -27,9 +27,11 @@ class MyParallelServer : public Server {
         bool setStop = false;
         int socketDescriptor;
         struct ServerData *serverData;
-    public:
+    /*public:
+
         virtual void open(int port, ClientHandler *clientHandler);
         virtual void stop();
+        */
 };
 
 

@@ -10,6 +10,8 @@
 #include <unistd.h>
 using namespace std;
 
+
+/*
 //run in a thread, talk to clients.
 void *clientTalkThreadFunc(void *serverData) {
     try {
@@ -25,6 +27,37 @@ void *clientTalkThreadFunc(void *serverData) {
     }
 }
 
+//listen and accept, give timeout of time
+void listenAccept(int time, struct ServerData *serverData1) {
+    int l = 0;
+    l = listen(serverData1->socketDescriptor, 5);
+    if (l < 0) {
+        throw "server listen failed";
+    }
+
+    struct sockaddr_in client;
+    socklen_t clilen = sizeof(client);
+
+    timeval timeout;
+    timeout.tv_sec = 10;
+    timeout.tv_usec = 0;
+
+    setsockopt(serverData1->socketDescriptor, SOL_SOCKET, SO_RCVTIMEO, (char *)&timeout, sizeof(timeout));
+
+    //accept
+    //cout << "server try to accept" << endl;
+    int newSocket = accept(serverData1->socketDescriptor, (struct sockaddr*)&client, &clilen);
+    if (newSocket < 0)	{
+        //in timeout end the thread
+        if (errno == EWOULDBLOCK)	{
+            cout << "timeout!" << endl;
+            break;
+        } else { //in other error throw an exception
+            throw "accept failed";
+        }
+    }
+    serverData1->newSocket = newSocket;
+}
 //wait for clients. for each client create a thread to talk with.
 void* parallelServerThreadFunc(void *serverData) {
     int newSocket = 0;
@@ -39,34 +72,7 @@ void* parallelServerThreadFunc(void *serverData) {
         //cout << *serverData1->setStop << endl;
         while (!(*serverData1->setStop)) {
             //talk with a single client until get a stop sign
-            int l = 0;
-            l = listen(serverData1->socketDescriptor, 5);
-            if (l < 0) {
-                throw "server listen failed";
-            }
 
-            struct sockaddr_in client;
-            socklen_t clilen = sizeof(client);
-
-            timeval timeout;
-            timeout.tv_sec = 10;
-            timeout.tv_usec = 0;
-
-            setsockopt(serverData1->socketDescriptor, SOL_SOCKET, SO_RCVTIMEO, (char *)&timeout, sizeof(timeout));
-
-            //accept
-            //cout << "server try to accept" << endl;
-            newSocket = accept(serverData1->socketDescriptor, (struct sockaddr*)&client, &clilen);
-            if (newSocket < 0)	{
-                //in timeout end the thread
-                if (errno == EWOULDBLOCK)	{
-                    cout << "timeout!" << endl;
-                    break;
-                } else { //in other error throw an exception
-                    throw "accept failed";
-                }
-            }
-            serverData1->newSocket = newSocket;
             //create a thread for talking with the client
 
             threads->push_back(nullptr);
@@ -198,12 +204,7 @@ void MyParallelServer::open(int port, ClientHandler *clientHandler) {
     this->stop();
 }
 
-/*
-DataReaderServer::~DataReaderServer() {
-    //cout << "server socket closed" << endl;
-    close(this->socketDescriptor);
-    close(this->newSocket);
-}*/
+
 
 //stop the server and all the threads
 void MyParallelServer::stop() {
@@ -247,3 +248,4 @@ void stopThreads(vector<pthread_t> *threads) {
     }
     cout << "after free all but one thread" << endl;
 }
+*/
