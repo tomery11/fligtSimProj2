@@ -76,7 +76,7 @@ State<T> *Searcher<T>::search(ISearchable<T> &searchable) {
     initMembers(searchable);
 
     addToOpenList(searchable.getInitialState());
-
+    //as long as not taken care of evaluated nodes
     while(!isOpenListEmpty()){
         State<T>* node = popOpenList();
         if(searchable.isGoal(node)){
@@ -90,6 +90,10 @@ State<T> *Searcher<T>::search(ISearchable<T> &searchable) {
         set<State<T>*> toBeCompleted = searchable.getAllPossibleStates(node);
 
         visit(node);
+
+        if(node->getWeight()==-1){
+            continue;
+        }
         for(auto son : toBeCompleted){
             if(!has_visited(son)){
                 addToOpenList(son);
