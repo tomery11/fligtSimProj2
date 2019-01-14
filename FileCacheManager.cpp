@@ -8,6 +8,7 @@
 #include <utility>
 #include <iostream>
 #include "FileCacheManager.h"
+#include "Utils.h"
 #define NO_FILE_ERR 2
 
 using namespace std;
@@ -59,22 +60,6 @@ void FileCacheManager::saveAllToDisk() {
     }
 }
 
-//parse by delimiter. input is string to delimit, token and vector for output
-void parseByDelimiter(string inputStr, string token, vector<string> *outputVec) {
-    //go over the inputStr and parses according to to the token
-    std::size_t prev = 0, pos;
-    while ((pos = inputStr.find_first_of(token, prev)) != string::npos) {
-        if (pos > prev) {
-            outputVec->push_back(inputStr.substr(prev, pos - prev));
-        }
-        prev = pos + 1;
-    }
-    //add last word
-    if (prev < inputStr.length()) {
-        outputVec->push_back(inputStr.substr(prev, string::npos));
-    }
-}
-
 void FileCacheManager::getAllFromDisk() {
     //open the file
     fstream file(this->file, fstream::in);
@@ -93,7 +78,8 @@ void FileCacheManager::getAllFromDisk() {
     if (file.is_open()) {
         //get the file contents as a single string
         buffer << file.rdbuf();
-        parseByDelimiter(buffer.str(), "$", &inputVec);
+        Utils utils;
+        utils.parseByDelimiter(buffer.str(), "$", &inputVec);
         file.close();
     }
     //put the problems and solutions from file to the map

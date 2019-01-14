@@ -11,8 +11,7 @@
 
 template <class T>
 class ISearcher {
-public:
-    //not sure whether this needs to be generic.
+public://not sure whether this needs to be generic.
 virtual State<T>* search(ISearchable<T>& searchable)=0;
 virtual int getNumberOfNodesEvaluated()=0;
 virtual ~ISearcher();
