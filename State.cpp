@@ -4,7 +4,7 @@
 
 #include "State.h"
 
-
+/*
 
 template<class T>
 State<T>::State(T *state, double weight, State<T> *pre) {
@@ -58,4 +58,4 @@ bool State<T>::appearInSolution() {
     return this->appear_inSolution;
 }
 
-
+*/

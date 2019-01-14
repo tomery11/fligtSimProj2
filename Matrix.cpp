@@ -3,7 +3,7 @@
 //
 
 #include "Matrix.h"
-
+/*
 Matrix::Matrix(int **matrix, int row, int col, Node *start, Node *goal) {
     this->matrix=matrix;
     this->row=row;
@@ -102,3 +102,4 @@ bool Matrix::isGoal(State<Node>* currState) {
         ans=true;
     return ans;
 }
+*/
