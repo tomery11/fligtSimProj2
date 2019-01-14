@@ -9,12 +9,18 @@
 #include "ISearchable.h"
 #include "State.h"
 
+
+
 template <class T>
+class ISearchable;
+
+class T;
+
 class ISearcher {
 public://not sure whether this needs to be generic.
-virtual State<T>* search(ISearchable<T>& searchable)=0;
+virtual State<T>* search(ISearchable<T>* searchable)=0;
 virtual int getNumberOfNodesEvaluated()=0;
-virtual ~ISearcher();
+virtual ~ISearcher() = default;
 };
 
 

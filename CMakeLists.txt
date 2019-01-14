@@ -12,4 +12,4 @@ add_executable(fligtSimProj2 main.cpp ISearcher.h ISearchable.h CacheManager.cpp
         MySerialServer.cpp MyTestClientHandler.cpp
         MyTestClientHandler.h MySerialServer.cpp
         PQueueSearcher.h Searcher.h Server.h Solver.h State.h
-        State.cpp StatePriority.h StringReverser.h StringReverser.cpp SolverToSearcherAdapter.cpp SolverToSearcherAdapter.h MyClientHandler.cpp MyClientHandler.h Utils.cpp Utils.h MyParallelServer.cpp MyParallelServer.h)
+        State.cpp StatePriority.h StringReverser.h StringReverser.cpp Matrix.h Matrix.cpp)
