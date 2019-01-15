@@ -11,16 +11,16 @@
 
 template<class Problem, class Solution>
 class SolverToSearcherAdapter : public Solver<Problem, Solution> {
-    ISearcher<Problem> *searcher;//todo understand if should use problem or solution here
+    ISearcher *searcher;
     ISearchable<Problem> *searchable;
 public:
-    explicit SolverToSearcherAdapter(ISearcher<Problem> *searcher, ISearchable<Problem> *searchable);
+    explicit SolverToSearcherAdapter(ISearcher *searcher, ISearchable<Problem> *searchable);
     virtual Solution solve(Problem problem);
     virtual string ProblemToString(Problem problem);
 };
 
 template<class Problem, class Solution>
-SolverToSearcherAdapter<Problem, Solution>::SolverToSearcherAdapter(ISearcher<Problem> *searcher, ISearchable<Problem> *searchable) {
+SolverToSearcherAdapter<Problem, Solution>::SolverToSearcherAdapter(ISearcher *searcher, ISearchable<Problem> *searchable) {
     this->searcher = searcher;
     this->searchable = searchable;
 }
