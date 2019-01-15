@@ -7,7 +7,7 @@
 
 #include <pthread.h>
 #include "Client.h"
-#include "Matrix.h"
+//#include "Matrix.h"
 
 //struct for the thread
 struct Data {
@@ -18,7 +18,7 @@ struct Data {
 
 void *threadFunc(void *data);
 
-class MatrixSearchClient : public Client<Matrix> {
+class MatrixSearchClient : public Client {
     Data *data;
     pthread_t threadID;
 public:

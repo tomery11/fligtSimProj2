@@ -8,10 +8,10 @@
 #include <string>
 
 using namespace std;
-template<class Problem>
+
 class Client {
 public:
-    virtual void open(string ipAddress, int port, Problem problem) = 0;
+    virtual void open(string ipAddress, int port, string messsage) = 0;
 };
 
 #endif //FLIGTSIMPROJ2_CLIENT_H

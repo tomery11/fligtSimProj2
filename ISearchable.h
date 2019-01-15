@@ -6,7 +6,7 @@
 #define FLIGTSIMPROJ2_ISEARCHABLE_H
 
 #include "State.h"
-#include "ISearcher.h"
+//#include "ISearcher.h"
 #include <set>
 
 template <class T>
