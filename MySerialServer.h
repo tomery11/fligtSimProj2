@@ -12,7 +12,7 @@
 using namespace server_side;
 
 //the struct the server thread will get
-struct ServerData {
+struct ServerSData {
     int port;
     int socketDescriptor;
     ClientHandler *clientHandler;
@@ -24,7 +24,7 @@ class MySerialServer : public Server {
     pthread_t threadID;
     bool setStop = false;
     int socketDescriptor;
-    struct ServerData *serverData;
+    struct ServerSData *serverData;
 public:
     virtual void open(int port, ClientHandler *clientHandler);
     virtual void stop();

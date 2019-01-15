@@ -40,6 +40,7 @@ int MyParallelServer::listenAccept(int time, struct ServerData *serverData1) {
     timeval timeout;
     timeout.tv_sec = time;
     timeout.tv_usec = 0;
+    cout << "set time wait: " << time << endl;
 
     setsockopt(serverData1->socketDescriptor, SOL_SOCKET, SO_RCVTIMEO, (char *)&timeout, sizeof(timeout));
 
@@ -66,7 +67,7 @@ void* parallelServerThreadFunc(void *serverData) {
     vector<TalkingData*> talkingStructs;
     try {
         //todo timeout in writing to the client
-        //serverData is of type ServerData
+        //serverData is of type ServerData1
         struct ServerData *serverData1;
         serverData1 = (struct ServerData *) serverData;
 
@@ -116,7 +117,7 @@ void* parallelServerThreadFunc(void *serverData) {
 //in timeout stop gracefully.
 void MyParallelServer::open(int port, ClientHandler *clientHandler) {
 
-    cout << "my serial server open" << endl;
+    cout << "my parallel server open" << endl;
     //open a socket
     char buffer[256 + 1];
     int b;
@@ -164,7 +165,7 @@ void MyParallelServer::open(int port, ClientHandler *clientHandler) {
     }
 
     //gracefull stop
-    this->stop();
+    //this->stop();
 }
 
 

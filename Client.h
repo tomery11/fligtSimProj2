@@ -11,7 +11,7 @@ using namespace std;
 
 class Client {
 public:
-    virtual void open(string ipAddress, int port, string messsage) = 0;
+    virtual void open(string ipAddress, int port, vector<string> *message) = 0;
 };
 
 #endif //FLIGTSIMPROJ2_CLIENT_H

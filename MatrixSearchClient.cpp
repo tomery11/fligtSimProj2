@@ -15,6 +15,7 @@
 
 void *threadFunc(void *data) {
     try {
+        cout << "client thread started" << endl;
         Data *data1;
         data1 = (Data *) data;
 
@@ -48,16 +49,18 @@ void *threadFunc(void *data) {
             sleep(1);
         }
         //send the message
+        for(auto it : *data1->message) {
+            memset(buffer, 0, 256);
+            strcpy(buffer, it.c_str());
+            /* Send message to the server */
+            n = write(sockfd, buffer, strlen(buffer));
 
-        memset(buffer, 0, 256);
-        strcpy(buffer, data1->messsage.c_str());
-        /* Send message to the server */
-        n = write(sockfd, buffer, strlen(buffer));
-
-        if (n < 0) {
-            throw "write to socket failed";
+            if (n < 0) {
+                throw "write to socket failed";
+            }
+            cout << "sent: " << it << endl;
+            sleep(1);
         }
-        cout << "sent: " << data1->messsage << endl;
         //read server response
         memset(buffer, 0, 256);
         n = read(sockfd, buffer, 255);
@@ -74,12 +77,13 @@ void *threadFunc(void *data) {
     }
 }
 
-void MatrixSearchClient::open(string ipAddress, int port, string messsage) {
+void MatrixSearchClient::open(string ipAddress, int port, vector<string> *message) {
+    cout << "client open" << endl;
     //create a thread to talk with each client, one after the other
     //pthread_t threadID;
     this->data = new Data;
     data->port = port;
-    data->messsage = messsage;
+    data->message = message;
     data->ipAddress = ipAddress;
 
     //start the thread
