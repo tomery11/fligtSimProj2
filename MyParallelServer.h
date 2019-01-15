@@ -12,8 +12,32 @@
 using namespace std;
 using namespace server_side;
 
+//struct for the little client talking threads
+struct TalkingData {
+    int newSocket;
+    ClientHandler *clientHandler;
+};
+
+void *clientTalkThreadFunc(void *talkingData);
+void* parallelServerThreadFunc(void *serverData);
+
+class MyParallelServer : public Server {
+    pthread_t threadID;
+    //vector<pthread_t> threads;
+    bool setStop = false;
+    int socketDescriptor;
+    struct ServerData *serverData;
+public:
+    void stopThreads(vector<pthread_t> *threads, vector<TalkingData*> *talkingStructs);
+    int listenAccept(int time, struct ServerData *serverData1);
+    virtual void open(int port, ClientHandler *clientHandler);
+    virtual void stop();
+
+};
+
 //the struct the server thread will get
 struct ServerData {
+    MyParallelServer *parallelServer;
     int port;
     int socketDescriptor;
     ClientHandler *clientHandler;
@@ -21,18 +45,6 @@ struct ServerData {
     int newSocket;
 };
 
-class MyParallelServer : public Server {
-        pthread_t threadID;
-        vector<pthread_t> threads;
-        bool setStop = false;
-        int socketDescriptor;
-        struct ServerData *serverData;
-    /*public:
-
-        virtual void open(int port, ClientHandler *clientHandler);
-        virtual void stop();
-        */
-};
 
 
 #endif //FLIGTSIMPROJ2_MYPARALLELSERVER_H
