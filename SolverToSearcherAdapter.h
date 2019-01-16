@@ -29,7 +29,10 @@ SolverToSearcherAdapter<Problem, Solution>::SolverToSearcherAdapter(ISearcher *s
 
 template<class Problem, class Solution>
 Solution SolverToSearcherAdapter<Problem, Solution>::solve(Problem problem) {
-    this->searcher->search(&this->searchable);
+    //todo
+    //this->searcher->search(&this->searchable);
+    //virtual State<T>* search(ISearchable<T>* searchable)=0;
+
 }
 
 //todo function

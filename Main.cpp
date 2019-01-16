@@ -3,6 +3,7 @@
 //
 
 #include "Main.h"
+#include "MatrixCacheAdapter.h"
 #include "Server.h"
 #include "MySerialServer.h"
 #include "ClientHandler.h"
@@ -39,7 +40,8 @@ int Main::main(int argc, char *argv[]) {//todo no new
         cout << "Main after server" << endl;
         //create a cache manager
         FileCacheManager fcm;
-        CacheManager<string,string> *cacheManager = &fcm;
+        MatrixCacheAdapter mcm = MatrixCacheAdapter(&fcm);
+        CacheManager<Matrix, string> *cacheManager = &mcm;
         cout << "Main after cache" << endl;
         //create solver
         //StringReverser stringRev;

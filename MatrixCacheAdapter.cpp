@@ -9,7 +9,13 @@ MatrixCacheAdapter::MatrixCacheAdapter(FileCacheManager *fileCacheManager1) {
 }
 
 bool MatrixCacheAdapter::hasSolutionForProblem(Matrix problem) {
-    this->fileCacheManager->hasSolutionForProblem(problem.)
+    this->fileCacheManager->hasSolutionForProblem(problem.getStrRepresentation());
 }
-string MatrixCacheAdapter::getSolutionForProblem(Matrix problem);
-void MatrixCacheAdapter::save(Matrix problem, string solution);
+
+string MatrixCacheAdapter::getSolutionForProblem(Matrix problem) {
+    this->fileCacheManager->getSolutionForProblem(problem.getStrRepresentation());
+}
+
+void MatrixCacheAdapter::save(Matrix problem, string solution) {
+
+}

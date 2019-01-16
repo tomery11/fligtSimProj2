@@ -28,6 +28,7 @@ class MyParallelServer : public Server {
     bool doneListening = false;
     int socketDescriptor;
     struct ServerData *serverData;
+    int counter = 0;
 public:
     void stopThreads(vector<pthread_t> *threads, vector<TalkingData*> *talkingStructs);
     int listenAccept(int time, struct ServerData *serverData1);

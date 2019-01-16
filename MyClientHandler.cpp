@@ -61,29 +61,39 @@ void MyClientHandler::handleClient(int socket) {
     Utils utils;
     vector<string> strInts;
     //for each line formet int,int,int,...
-    for (int i = 0; i < matrixLines.size(); i++) {
+    int i, j;
+    for (i = 0; i < matrixLines.size(); i++) {
         //get all the int as string, seperated
         strInts.clear();
         utils.parseByDelimiter(matrixLines[i], ",", &strInts);
         //for every str int put inside the matrix as a real int (not str)
-        for (int j = 0; j < strInts.size(); j++) {
+        for (j = 0; j < strInts.size(); j++) {
             matrix[i][j] = atoi(strInts[j].c_str());
         }
     }
+    //get the start point
+    strInts.clear();
+    utils.parseByDelimiter(coordinate1, ",", &strInts);
 
+    //get the end point
+    utils.parseByDelimiter(coordinate2, ",", &strInts);
+
+    Matrix matrix1((int**)matrix, i, j, atoi(strInts[0].c_str()), atoi(strInts[2].c_str()),
+            atoi(strInts[1].c_str()), atoi(strInts[3].c_str()));
+    //Matrix(int **matrix, int row, int col, int i_start, int j_start, int i_goal, int j_goal);
 
     //ask the cache manager for a saved solution
-    if (this->cacheManager->hasSolutionForProblem(inputBuffer)) {//todo
+    if (this->cacheManager->hasSolutionForProblem(matrix1)) {//todo
         //set the solution to the buffer
-        solutionStr = this->cacheManager->getSolutionForProblem(inputBuffer);
-        strcpy(outputBuffer, solutionStr.c_str());
+        solutionStr = this->cacheManager->getSolutionForProblem(matrix1);
     } else { //if there is none, send for the solver
         //todo make a searchable matrix
-
         //send for the solver (which is a searcher)
-        solutionStr = this->solver->solve(inputBuffer);
-        strcpy(outputBuffer, solutionStr.c_str());
+        solutionStr = this->solver->solve(matrix1);
+        //put in cache manager
+        this->cacheManager->save(matrix1, solutionStr);
     }
+    strcpy(outputBuffer, solutionStr.c_str());
     //Send solution to the server
     n = write(socket, outputBuffer, strlen(outputBuffer));
     if (n < 0) {
@@ -101,7 +111,7 @@ void MyTestClientHandler::setStopTalking(bool flag) {
 }
 */
 
-MyClientHandler::MyClientHandler(Solver<string, string> *solver, CacheManager<string, string> *cacheManager) {
+MyClientHandler::MyClientHandler(Solver<Matrix, string> *solver, CacheManager<Matrix, string> *cacheManager) {
     this->solver = solver;
     this->cacheManager = cacheManager;
 }

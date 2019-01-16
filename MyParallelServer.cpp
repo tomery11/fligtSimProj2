@@ -8,6 +8,8 @@
 #include <cstdio>
 #include <iostream>
 #include <unistd.h>
+#include <thread>
+
 using namespace std;
 
 
@@ -15,7 +17,7 @@ using namespace std;
 //little server threads: run in a thread, talk to clients.
 void *clientTalkThreadFunc(void *talkingData) {
     try {
-        cout << "little thread" << endl;
+        cout << "little thread " << this_thread::get_id() << endl;
         //TalkingData is of type TalkingData
         TalkingData *talkingData1;
         talkingData1 = (TalkingData *) talkingData;
