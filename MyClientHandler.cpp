@@ -23,31 +23,22 @@ void MyClientHandler::handleClient(int socket) {
     ssize_t n;
     string solutionStr;
     //read
-    memset(inputBuffer, 0, BUFFER_LENGTH);
-    n = read(socket, inputBuffer, BUFFER_LENGTH);
-    printf("recieved:  %s\n",inputBuffer);
-    if (n < 0) {
-        throw "read failed";
-    }
+    //memset(inputBuffer, 0, BUFFER_LENGTH);
+    //n = read(socket, inputBuffer, BUFFER_LENGTH);
+    //printf("recieved:  %s\n",inputBuffer);
+    //if (n < 0) {
+    //    throw "read failed";
+    //}
     //we don't know when the end is, so in each iteration move the data from client
     //between the strings so in the end everything will be in it's place.
     vector<string> matrixLines;
-    string end(inputBuffer);
+    string end;
     string coordinate2;
     string coordinate1;
     string partOfMatrix;
     //end of talking if client sent "end"
-    while (strcmp(inputBuffer, "end") != 0) {
+    while (strcmp(end.c_str(), "end") != 0) {
 
-        //jungle the strings
-        end = inputBuffer;
-        coordinate2 = end;
-        coordinate1 = coordinate2;
-        partOfMatrix = coordinate1;
-        //push the decided-to-be part of matrix to the vector
-        if(!partOfMatrix.empty()) {
-            matrixLines.push_back(partOfMatrix);
-        }
         memset(outputBuffer, 0, BUFFER_LENGTH);
         //read
         memset(inputBuffer, 0, BUFFER_LENGTH);
@@ -56,6 +47,19 @@ void MyClientHandler::handleClient(int socket) {
             throw "read failed";
         }
         printf("recieved:  %s\n",inputBuffer);
+
+        //jungle the strings
+        partOfMatrix = coordinate1;
+        coordinate1 = coordinate2;
+        coordinate2 = end;
+        end = inputBuffer;
+        cout << "end: " << end << " cord1: " << coordinate1 << " cor2: " << coordinate2 << endl;
+        cout << "part of matrix: " << partOfMatrix << endl;
+        //push the decided-to-be part of matrix to the vector
+        if(!partOfMatrix.empty()) {
+            matrixLines.push_back(partOfMatrix);
+        }
+
         //} else { //end
         //this->setStopTalking(true);
     }
@@ -91,10 +95,11 @@ void MyClientHandler::handleClient(int socket) {
             atoi(strInts[1].c_str()), atoi(strInts[3].c_str()));
     //Matrix(int **matrix, int row, int col, int i_start, int j_start, int i_goal, int j_goal);
 
+    cout << "matrix1: " << &matrix1 << endl;
     //ask the cache manager for a saved solution
-    if (this->cacheManager->hasSolutionForProblem(matrix1)) {//todo
+    if (this->cacheManager->hasSolutionForProblem(&matrix1)) {//todo
         //set the solution to the buffer
-        solutionStr = this->cacheManager->getSolutionForProblem(matrix1);
+        solutionStr = this->cacheManager->getSolutionForProblem(&matrix1);
     } else { //if there is none, send for the solver
         //todo make a searchable matrix
         //send for the solver (which is a searcher)

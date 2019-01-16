@@ -16,8 +16,8 @@ class FileCacheManager : public CacheManager<string, string> {
     void getAllFromDisk();
 public:
     FileCacheManager();
-    virtual bool hasSolutionForProblem(string problem);
-    virtual string getSolutionForProblem(string problem);
+    virtual bool hasSolutionForProblem(string *problem);
+    virtual string getSolutionForProblem(string *problem);
     virtual void save(string problem, string solution);
     ~FileCacheManager();
 };

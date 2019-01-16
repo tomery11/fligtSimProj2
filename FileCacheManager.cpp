@@ -13,20 +13,20 @@
 
 using namespace std;
 
-bool FileCacheManager::hasSolutionForProblem(string problem) {
-    if (this->problemsSolutions.find(problem) == this->problemsSolutions.end()) {
+bool FileCacheManager::hasSolutionForProblem(string *problem) {
+    if (this->problemsSolutions.find(*problem) == this->problemsSolutions.end()) {
         return false;
     }
     return true;
 }
 
 //get the saved solution for a given problem. if there is none, return null.
-string FileCacheManager::getSolutionForProblem(string problem) {
+string FileCacheManager::getSolutionForProblem(string *problem) {
     if (!hasSolutionForProblem(problem)) {
         return nullptr;
     }
     //if has solution, return it
-    auto it = this->problemsSolutions.find(problem);
+    auto it = this->problemsSolutions.find(*problem);
     return it->second;
 }
 

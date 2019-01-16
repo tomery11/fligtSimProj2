@@ -25,9 +25,10 @@ void MyTestClientHandler::handleClient(int socket) {
     while (strcmp(inputBuffer, "end") != 0) {
         memset(outputBuffer, 0, BUFFER_LENGTH);
         //ask the cache manager for a saved solution
-        if (this->cacheManager->hasSolutionForProblem(inputBuffer)) {
+        string strbuf(inputBuffer);
+        if (this->cacheManager->hasSolutionForProblem(&strbuf)) {
             //set the solution to the buffer
-            solutionStr = this->cacheManager->getSolutionForProblem(inputBuffer);
+            solutionStr = this->cacheManager->getSolutionForProblem(&strbuf);
             strcpy(outputBuffer, solutionStr.c_str());
         } else { //if there is none, send for the solver
             solutionStr = this->solver->solve(inputBuffer);

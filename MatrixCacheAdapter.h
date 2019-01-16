@@ -14,8 +14,8 @@ class MatrixCacheAdapter : public CacheManager<Matrix, string> {
     FileCacheManager *fileCacheManager;
 public:
     MatrixCacheAdapter(FileCacheManager *fileCacheManager1);
-    virtual bool hasSolutionForProblem(Matrix problem);
-    virtual string getSolutionForProblem(Matrix problem);
+    virtual bool hasSolutionForProblem(Matrix *problem);
+    virtual string getSolutionForProblem(Matrix *problem);
     virtual void save(Matrix problem, string solution);
 };
 
