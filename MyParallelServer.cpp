@@ -15,6 +15,7 @@ using namespace std;
 //little server threads: run in a thread, talk to clients.
 void *clientTalkThreadFunc(void *talkingData) {
     try {
+        cout << "little thread" << endl;
         //TalkingData is of type TalkingData
         TalkingData *talkingData1;
         talkingData1 = (TalkingData *) talkingData;
@@ -51,7 +52,7 @@ int MyParallelServer::listenAccept(int time, struct ServerData *serverData1) {
         //in timeout end all the threads
         if (errno == EWOULDBLOCK)	{
             cout << "timeout!" << endl;
-            serverData1->parallelServer->stop();
+            serverData1->parallelServer->setDoneListening(true);
         } else { //in other error throw an exception
             throw "accept failed";
         }
@@ -78,14 +79,15 @@ void* parallelServerThreadFunc(void *serverData) {
         talking1->newSocket = newSocket;
         talking1->clientHandler = serverData1->clientHandler;
         //create a thread to talk with
-        int rc = pthread_create(&threadID, nullptr, parallelServerThreadFunc, (void *)&talking1);
+        int rc = pthread_create(&threadID, nullptr, clientTalkThreadFunc, (void *)&talking1);
         if (rc) {
             throw "unable to create thread";
         }
         threads.push_back(threadID);
+        serverData1->parallelServer->setDoneListening(true);//todo delete this
         //talk with the other clients: client after client serially. 1 second max to wait, end if timeout.
         //cout << *serverData1->setStop << endl;
-        while (!(*serverData1->setStop)) {
+        while (!(serverData1->parallelServer->getDoneListening())) {
             //listen for 1 second. set the new socket number for the thread
             newSocket = serverData1->parallelServer->listenAccept(1, serverData1);
             auto *talking = new TalkingData;
@@ -212,4 +214,12 @@ void MyParallelServer::stopThreads(vector<pthread_t> *threads, vector<TalkingDat
         delete(it1);
     }
     cout << "after free all but one thread" << endl;
+}
+
+void MyParallelServer::setDoneListening(bool done) {
+    this->doneListening = done;
+}
+
+bool MyParallelServer::getDoneListening() {
+    return this->doneListening;
 }

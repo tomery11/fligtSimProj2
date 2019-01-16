@@ -8,12 +8,15 @@
 #include <vector>
 #include "Utils.h"
 #include <algorithm>
+#include <iostream>
 
 #define BUFFER_LENGTH 512
+using namespace std;
 
 //talk with a client. client write lines format: num,num,num,num\n, then row,col\n row,col\n, end\n.
 //then client handler return the solution: values {Up, Down, Left, Right} with ',' between them.
 void MyClientHandler::handleClient(int socket) {
+    cout << "start jandle client" << endl;
     //get a problem from client
     char inputBuffer[BUFFER_LENGTH + 1];
     char outputBuffer[BUFFER_LENGTH + 1];
