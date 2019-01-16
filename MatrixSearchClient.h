@@ -24,7 +24,7 @@ class MatrixSearchClient : public Client {
     pthread_t threadID;
 public:
     virtual void open(string ipAddress, int port, vector<string> *message);
-    ~MatrixSearchClient();
+    void stop();
 };
 
 

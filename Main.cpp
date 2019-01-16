@@ -47,7 +47,7 @@ int Main::main(int argc, char *argv[]) {//todo no new
         //StringReverser stringRev;
         //Solver<string, string> *solver = &stringRev;
 
-        SolverToSearcherAdapter<Matrix, string> solver1 = SolverToSearcherAdapter<Matrix, string>();
+        SolverToSearcherAdapter<Matrix> solver1 = SolverToSearcherAdapter<Matrix>();
         Solver<Matrix, string> *solver = &solver1;
 
         //SolverToSearcherAdapter(ISearcher *searcher)
@@ -71,13 +71,15 @@ int Main::main(int argc, char *argv[]) {//todo no new
                 "7, 7, 5,10, 8,10, 1, 6, 9, 9, 1\n"
                 "5,10, 1,10, 7, 7, 3,10, 8, 0, 6\n",
                 "0,0\n",
-                "10,10\n"};
+                "10,10\n",
+                "end"};
         vector<string> message(arr, arr + (sizeof(arr)/sizeof(arr[0])));
         myServer->open(port, clientHandler);
         //start client
         MatrixSearchClient searcherMatrix;
         searcherMatrix.open("127.0.0.1" ,port, &message);
         sleep(1);
+        searcherMatrix.stop();
         myServer->stop();
         return 0;
     } catch (const char *exception) {

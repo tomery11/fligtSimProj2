@@ -81,7 +81,7 @@ void* parallelServerThreadFunc(void *serverData) {
         talking1->newSocket = newSocket;
         talking1->clientHandler = serverData1->clientHandler;
         //create a thread to talk with
-        int rc = pthread_create(&threadID, nullptr, clientTalkThreadFunc, (void *)&talking1);
+        int rc = pthread_create(&threadID, nullptr, clientTalkThreadFunc, (void *)talking1);
         if (rc) {
             throw "unable to create thread";
         }
@@ -104,7 +104,7 @@ void* parallelServerThreadFunc(void *serverData) {
             threads.push_back(threadID);
         }
         //end all the other threads
-        serverData1->parallelServer->stopThreads(&threads, &talkingStructs);
+        stopThreads(&threads, &talkingStructs);
         //end this one, and the whole parallel server
         serverData1->parallelServer->stop();
         //close(newSocket);-no need?
@@ -197,7 +197,7 @@ void MyParallelServer::stop() {
 
 
 //stop the little threads, clean memory of the big thread
-void MyParallelServer::stopThreads(vector<pthread_t> *threads, vector<TalkingData*> *talkingStructs) {
+void stopThreads(vector<pthread_t> *threads, vector<TalkingData*> *talkingStructs) {
     cout << "stop threads" << endl;
     void *res;
     //loop to close all the threads

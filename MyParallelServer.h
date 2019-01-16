@@ -20,17 +20,19 @@ struct TalkingData {
 
 void *clientTalkThreadFunc(void *talkingData);
 void* parallelServerThreadFunc(void *serverData);
+void stopThreads(vector<pthread_t> *threads, vector<TalkingData*> *talkingStructs);
 
 class MyParallelServer : public Server {
     pthread_t threadID;
     //vector<pthread_t> threads;
+
     bool setStop = false;
     bool doneListening = false;
     int socketDescriptor;
     struct ServerData *serverData;
     int counter = 0;
 public:
-    void stopThreads(vector<pthread_t> *threads, vector<TalkingData*> *talkingStructs);
+
     int listenAccept(int time, struct ServerData *serverData1);
     virtual void open(int port, ClientHandler *clientHandler);
     virtual void stop();

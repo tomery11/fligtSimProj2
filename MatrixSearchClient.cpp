@@ -94,7 +94,7 @@ void MatrixSearchClient::open(string ipAddress, int port, vector<string> *messag
     }
 }
 
-MatrixSearchClient::~MatrixSearchClient() {
+void MatrixSearchClient::stop() {
     //close the thread
     void *res;
     int s = pthread_join(threadID, &res);

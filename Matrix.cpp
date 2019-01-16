@@ -100,7 +100,7 @@ string Matrix::getStrRepresentation() {
     string rep;
     for (int i = 0; i < this->row; i++) {
         for (int j = 0; j < this->col; j++) {
-            rep += this->matrix[row][col];
+            rep += this->matrix[i][j];
             rep += " ";
             rep += ",";
         }

@@ -34,7 +34,7 @@ public:
 
     void initMembers(ISearchable<T>& searchable);
     void saveToPath(State<T>* goal);
-    State<T>* search(ISearchable<T>& searchable) override;
+    string search(ISearchable<T>& searchable) override;
     bool has_visited(State<T>* state);
     void visit(State<T>* state);
     int getNumberOfNodesEvaluated() override;
@@ -76,7 +76,7 @@ void Searcher<T>::saveToPath(State<T> *goal) {
 }
 
 template<class T>
-State<T> *Searcher<T>::search(ISearchable<T> &searchable) {
+string Searcher<T>::search(ISearchable<T> &searchable) {
 
     initMembers(searchable);
 
@@ -89,7 +89,7 @@ State<T> *Searcher<T>::search(ISearchable<T> &searchable) {
             saveToPath(node);
 
             clearAllStates();
-            return node;
+            return from_string_toSolution(node);
         }
         //if not reached to goal state
         set<State<T>*> toBeCompleted = searchable.getAllPossibleStates(node);

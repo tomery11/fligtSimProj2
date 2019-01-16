@@ -16,7 +16,7 @@ using namespace std;
 //talk with a client. client write lines format: num,num,num,num\n, then row,col\n row,col\n, end\n.
 //then client handler return the solution: values {Up, Down, Left, Right} with ',' between them.
 void MyClientHandler::handleClient(int socket) {
-    cout << "start jandle client" << endl;
+    cout << "start jangle client" << endl;
     //get a problem from client
     char inputBuffer[BUFFER_LENGTH + 1];
     char outputBuffer[BUFFER_LENGTH + 1];
@@ -25,24 +25,29 @@ void MyClientHandler::handleClient(int socket) {
     //read
     memset(inputBuffer, 0, BUFFER_LENGTH);
     n = read(socket, inputBuffer, BUFFER_LENGTH);
+    printf("recieved:  %s\n",inputBuffer);
     if (n < 0) {
         throw "read failed";
     }
     //we don't know when the end is, so in each iteration move the data from client
     //between the strings so in the end everything will be in it's place.
     vector<string> matrixLines;
-    string coordinate2(inputBuffer);
+    string end(inputBuffer);
+    string coordinate2;
     string coordinate1;
     string partOfMatrix;
     //end of talking if client sent "end"
     while (strcmp(inputBuffer, "end") != 0) {
+
+        //jungle the strings
+        end = inputBuffer;
+        coordinate2 = end;
+        coordinate1 = coordinate2;
+        partOfMatrix = coordinate1;
         //push the decided-to-be part of matrix to the vector
         if(!partOfMatrix.empty()) {
             matrixLines.push_back(partOfMatrix);
         }
-        //jungle the strings
-        coordinate1 = coordinate2;
-        partOfMatrix = coordinate1;
         memset(outputBuffer, 0, BUFFER_LENGTH);
         //read
         memset(inputBuffer, 0, BUFFER_LENGTH);
@@ -50,8 +55,12 @@ void MyClientHandler::handleClient(int socket) {
         if (n < 0) {
             throw "read failed";
         }
+        printf("recieved:  %s\n",inputBuffer);
         //} else { //end
         //this->setStopTalking(true);
+    }
+    for (auto it : matrixLines) {
+        cout << it << endl;
     }
     //figure out number of ints in the matrix
     long columnsNum = count(matrixLines[0].begin(), matrixLines[0].end(), ',') + 1;
@@ -95,6 +104,7 @@ void MyClientHandler::handleClient(int socket) {
     }
     strcpy(outputBuffer, solutionStr.c_str());
     //Send solution to the server
+    cout << "solution: " << solutionStr << endl;
     n = write(socket, outputBuffer, strlen(outputBuffer));
     if (n < 0) {
         throw "write to socket failed";

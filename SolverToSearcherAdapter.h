@@ -9,36 +9,35 @@
 #include "ISearcher.h"
 #include "ISearchable.h"
 
-template<class Problem, class Solution>
-class SolverToSearcherAdapter : public Solver<Problem, Solution> {
-    ISearcher *searcher;
+template<class Problem>
+class SolverToSearcherAdapter : public Solver<Problem, string> {
+    ISearcher<Problem> *searcher;
     ISearchable<Problem> *searchable;
 public:
-    explicit SolverToSearcherAdapter(ISearcher *searcher);
+    explicit SolverToSearcherAdapter(ISearcher<Problem> *searcher);
     SolverToSearcherAdapter();
     //void setSearchable(ISearchable<Problem> *searchable);
-    virtual Solution solve(Problem problem);
+    virtual string solve(Problem problem);
     virtual string ProblemToString(Problem problem);
 };
 
-template<class Problem, class Solution>
-SolverToSearcherAdapter<Problem, Solution>::SolverToSearcherAdapter(ISearcher *searcher) {
+template<class Problem>
+SolverToSearcherAdapter<Problem>::SolverToSearcherAdapter(ISearcher<Problem> *searcher) {
     this->searcher = searcher;
     this->searchable = searchable;
 }
 
-template<class Problem, class Solution>
-Solution SolverToSearcherAdapter<Problem, Solution>::solve(Problem problem) {
+template<class Problem>
+string SolverToSearcherAdapter<Problem>::solve(Problem problem) {
     //todo
-    //this->searcher->search(&this->searchable);
+    return this->searcher->search(*this->searchable);
     //virtual State<T>* search(ISearchable<T>* searchable)=0;
 
 }
 
-//todo function
-template<class Problem, class Solution>
-string SolverToSearcherAdapter<Problem, Solution>::ProblemToString(Problem problem) {
-    return std::__cxx11::string();
+template<class Problem>
+string SolverToSearcherAdapter<Problem>::ProblemToString(Problem problem) {
+    return this->searchable->getStrRepresentation();
 }
 
 /*
@@ -52,7 +51,7 @@ void SolverToSearcherAdapter<Problem, Solution>::setSearcher(ISearcher *searcher
     this->searcher = searcher;
 }*/
 
-template<class Problem, class Solution>
-SolverToSearcherAdapter<Problem, Solution>::SolverToSearcherAdapter() {}
+template<class Problem>
+SolverToSearcherAdapter<Problem>::SolverToSearcherAdapter() {}
 
 #endif //FLIGTSIMPROJ2_SOLVERTOSEARCHERADAPTER_H
