@@ -5,10 +5,8 @@
 #ifndef FLIGTSIMPROJ2_MATRIX_H
 #define FLIGTSIMPROJ2_MATRIX_H
 
-
 #include "ISearchable.h"
 using namespace std;
-
 
 class Node{
 public:
@@ -26,7 +24,6 @@ public:
     }
 };
 
-
 class Matrix : public ISearchable<Node>{
 private:
     int **matrix;
@@ -35,7 +32,6 @@ private:
     Node* start;
     Node*  goal;
 
-
 public:
     // we get here a specified starting node and goal node
     Matrix(int **matrix, int row, int col, Node* start, Node* goal);
@@ -43,25 +39,12 @@ public:
     Matrix(int **matrix, int row, int col, int i_start, int j_start, int i_goal, int j_goal);
     //there aren't any starting points and goals
     Matrix(int **matrix, int row, int col);
-
-
     State<Node>* stateGenarator(int i, int j, State<Node>* pre);
-
     State<Node>* getInitialState() override;
     set<State<Node>*> getAllPossibleStates(State<Node>* currState) override;
     bool isGoal(State<Node>* currState) override;
-
-
-
-
-
-
-    ~Matrix() ;
-
-
-
+    ~Matrix();
 };
-
 
 Matrix::Matrix(int **matrix, int row, int col, Node *start, Node *goal) {
     this->matrix=matrix;
@@ -144,13 +127,6 @@ set<State<Node> *> Matrix::getAllPossibleStates(State<Node>* currState) {
             toReturn.insert(insert_toSet);
     }
     return toReturn;
-
-
-
-
-
-
-
 }
 
 bool Matrix::isGoal(State<Node>* currState) {
