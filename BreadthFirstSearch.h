@@ -2,18 +2,18 @@
 // Created by tomer on 1/15/19.
 //
 
-#ifndef FLIGTSIMPROJ2_DEPTHFIRSTSEARCH_H
-#define FLIGTSIMPROJ2_DEPTHFIRSTSEARCH_H
+#ifndef FLIGTSIMPROJ2_BREADTHFIRSTSEARCH_H
+#define FLIGTSIMPROJ2_BREADTHFIRSTSEARCH_H
 
-#include <stack>
 #include "Searcher.h"
+#include <queue>;
 
 template <class T>
-class DepthFirstSearch : public Searcher<State<T>>{
+class BreadthFirstSearch {
 private:
-    stack<State<T>*> openList1;
-    stack<State<T>*> openList2;
-    void reverseBackStack();
+    queue<State<T>*> openList1;
+
+    queue<State<T>*> openList2;
 public:
     void addToOpenList(State<T>* curr_state);
     bool isOpenListEmpty();
@@ -22,14 +22,20 @@ public:
 };
 
 template<class T>
-void DepthFirstSearch<T>::addToOpenList(State<T> *curr_state) {
-    //meaning openList2 is the empty stack
+bool BreadthFirstSearch<T>::isOpenListEmpty() {
+    return (openList1.empty()||openList2.empty());
+}
+
+template<class T>
+void BreadthFirstSearch<T>::addToOpenList(State<T> *curr_state) {
+    // before we put the state in our list we will check that it doesn't
+    //exist already
     State<T>* temp_state;
     bool is_inStack1=false;
     if(!openList1.empty()){
         while(!openList1.empty()){
             is_inStack1=true;
-            temp_state=openList1.top();
+            temp_state=openList1.front();
             if(temp_state==curr_state){
                 delete curr_state;
                 return;
@@ -40,7 +46,7 @@ void DepthFirstSearch<T>::addToOpenList(State<T> *curr_state) {
     }
     if(!is_inStack1){
         while(!openList2.empty()){
-            temp_state=openList2.top();
+            temp_state=openList2.front();
             if(temp_state==curr_state){
                 delete curr_state;
                 return;
@@ -55,39 +61,18 @@ void DepthFirstSearch<T>::addToOpenList(State<T> *curr_state) {
         openList1.push(curr_state);
     }
 
-    reverseBackStack();
 
 }
 
 template<class T>
-bool DepthFirstSearch<T>::isOpenListEmpty() {
-    return (openList1.empty() || openList2.empty());
-}
-
-template<class T>
-State<T *> DepthFirstSearch<T>::popOpenList() {
-    Searcher<T> :: evaluatedNodes++;
-    State<T>* toReturn;
-    if(!openList1.empty()){
-        toReturn=openList1.top();
-        openList1.pop();
-    }else{
-        toReturn=openList2.top();
-        openList2.pop();
-    }
-    return toReturn;
-
-}
-
-template<class T>
-void DepthFirstSearch<T>::clearAllStates() {
+void BreadthFirstSearch<T>::clearAllStates() {
     Searcher<T> ::clearAllStates();
     State<T>* temp_state;
     bool is_inStack1=false;
     if(!openList1.empty()){
         while(!openList1.empty()){
             is_inStack1=true;
-            temp_state=openList1.top();
+            temp_state=openList1.front();
             if(temp_state->appearInSolution()){
                 delete temp_state;
             }
@@ -97,7 +82,7 @@ void DepthFirstSearch<T>::clearAllStates() {
     }
     if(!is_inStack1){
         while(!openList2.empty()){
-            temp_state=openList2.top();
+            temp_state=openList2.front();
             if(temp_state->appearInSolution()){
                 delete temp_state;
             }
@@ -105,22 +90,21 @@ void DepthFirstSearch<T>::clearAllStates() {
             openList1.push(temp_state);
         }
     }
-    reverseBackStack();
 }
 
 template<class T>
-void DepthFirstSearch<T>::reverseBackStack() {
-    State<T>* x;
+State<T *> BreadthFirstSearch<T>::popOpenList() {
+    Searcher<T> :: evaluatedNodes++;
+    State<T>* toReturn;
     if(!openList1.empty()){
-        x= openList1.top();
+        toReturn=openList1.front();
         openList1.pop();
-        openList2.push(x);
-    }else if(!openList2.empty()){
-        x = openList2.top();
+    }else{
+        toReturn=openList2.front();
         openList2.pop();
-        openList1.push(x);
     }
+    return toReturn;
 }
 
 
-#endif //FLIGTSIMPROJ2_DEPTHFIRSTSEARCH_H
+#endif //FLIGTSIMPROJ2_BREADTHFIRSTSEARCH_H

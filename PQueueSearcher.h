@@ -14,6 +14,8 @@
 #include <queue>
 
 template <class T>
+
+//for Best First Search
 class PQueueSearcher {
 private:
     priority_queue<StatePriority<T>*,
