@@ -6,6 +6,7 @@
 #define FLIGTSIMPROJ2_MATRIXSEARCHCLIENT_H
 
 #include <pthread.h>
+#include <vector>
 #include "Client.h"
 //#include "Matrix.h"
 
@@ -13,7 +14,7 @@
 struct Data {
     string ipAddress;
     int port;
-    string messsage;
+    vector<string> *message;
 };
 
 void *threadFunc(void *data);
@@ -22,7 +23,7 @@ class MatrixSearchClient : public Client {
     Data *data;
     pthread_t threadID;
 public:
-    virtual void open(string ipAddress, int port, string messsage);
+    virtual void open(string ipAddress, int port, vector<string> *message);
     ~MatrixSearchClient();
 };
 
@@ -34,9 +35,9 @@ public:
     //vector<pthread_t> threads;
     bool setStop = false;
     int socketDescriptor;
-    struct ServerData *serverData;
+    struct ServerData1 *serverData;
     void stopThreads(vector<pthread_t> *threads, vector<TalkingData*> *talkingStructs);
-    int listenAccept(int time, struct ServerData *serverData1);
+    int listenAccept(int time, struct ServerData1 *serverData1);
     virtual void stop();
 */
 

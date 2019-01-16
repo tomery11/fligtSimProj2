@@ -17,9 +17,9 @@ void* serverThreadFunc(void *serverData) {
     int newSocket = 0;
     try {
         //todo timeout in writing to the client
-        //serverData is of type ServerData
-        struct ServerData *serverData1;
-        serverData1 = (struct ServerData *) serverData;
+        //serverData is of type ServerData1
+        struct ServerSData *serverData1;
+        serverData1 = (struct ServerSData *) serverData;
 
         //talk with client after client serially
         //cout << *serverData1->setStop << endl;
@@ -101,7 +101,7 @@ void MySerialServer::open(int port, ClientHandler *clientHandler) {
 
     //create a thread to talk with each client, one after the other
     //pthread_t threadID;
-    this->serverData = new struct ServerData;
+    this->serverData = new ServerSData;
     serverData->port = port;
     serverData->socketDescriptor = socketDescriptor;
     serverData->clientHandler = clientHandler;
