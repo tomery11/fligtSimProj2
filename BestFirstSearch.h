@@ -6,6 +6,8 @@
 #define FLIGTSIMPROJ2_BESTFIRSTSEARCH_H
 
 #include "PQueueSearcher.h"
+#include "State.h"
+#include "CompareState.h"
 
 template <class T>
 class BestFirstSearch : public PQueueSearcher<T> {
