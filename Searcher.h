@@ -7,6 +7,8 @@
 
 #include "ISearcher.h"
 #include "CompareState.h"
+#include "State.h"
+#include "Matrix.h"
 #include <queue>
 
 
@@ -24,6 +26,8 @@ public:
     virtual void addToOpenList(State<T>* state)=0;
 
     virtual bool isOpenListEmpty()=0;
+
+    string from_string_toSolution(State<Node>* curr_state);
 
 
 
@@ -103,6 +107,57 @@ State<T> *Searcher<T>::search(ISearchable<T> &searchable) {
     }
     //case if didn't find any solution
     return nullptr;
+}
+
+template<class T>
+string Searcher<T>::from_string_toSolution(State<Node>* curr_state) {
+
+
+
+    string toReturn;
+
+    string up = "Up, ";
+    string down = "Down, ";
+    string right = "Right, ";
+    string left = "Left, ";
+
+
+    State<Node>* curr= curr_state;
+    Node* my_state;
+    State<Node>* previous= curr_state->getPre();
+    Node* previous_state;
+
+    while(previous != nullptr){
+        previous_state=previous->getState();
+        my_state=curr->getState();
+
+        if((previous_state->i>my_state->i) && (previous_state->j==my_state->j)){
+            toReturn.insert(0,up);
+        }
+
+        else if((previous_state->i<my_state->i) && (previous_state->j==my_state->j)){
+            toReturn.insert(0,down);
+        }
+
+        else if((previous_state->i==my_state->i)&&(previous_state->j<my_state->j)){
+            toReturn.insert(0,right);
+        }
+        else if((previous_state->i==my_state->i) && (previous_state->j<my_state->j)){
+            toReturn.insert(0,left);
+        }
+
+        curr=previous;
+        previous=previous->getPre();
+
+
+
+    }
+
+    toReturn.pop_back();
+    return toReturn;
+
+
+
 }
 
 
