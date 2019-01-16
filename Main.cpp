@@ -19,6 +19,9 @@
 #include <vector>
 #include "MatrixSearchClient.h"
 #include "MyParallelServer.h"
+#include "MyClientHandler.h"
+#include "SolverToSearcherAdapter.h"
+#include "Matrix.h"
 using namespace std;
 
 //template class CacheManager<string,string>;
@@ -39,12 +42,17 @@ int Main::main(int argc, char *argv[]) {//todo no new
         CacheManager<string,string> *cacheManager = &fcm;
         cout << "Main after cache" << endl;
         //create solver
-        StringReverser stringRev;
-        Solver<string, string> *solver = &stringRev;
+        //StringReverser stringRev;
+        //Solver<string, string> *solver = &stringRev;
+
+        SolverToSearcherAdapter<Matrix, string> solver1 = SolverToSearcherAdapter<Matrix, string>();
+        Solver<Matrix, string> *solver = &solver1;
+
+        //SolverToSearcherAdapter(ISearcher *searcher)
 
         //create client handler
-        MyTestClientHandler testClient(solver, cacheManager);
-        ClientHandler *clientHandler = &testClient;
+        MyClientHandler client(solver, cacheManager);
+        ClientHandler *clientHandler = &client;
 
 
         //get message
@@ -68,7 +76,7 @@ int Main::main(int argc, char *argv[]) {//todo no new
         MatrixSearchClient searcherMatrix;
         searcherMatrix.open("127.0.0.1" ,port, &message);
         sleep(1);
-        //myServer->stop();
+        myServer->stop();
         return 0;
     } catch (const char *exception) {
         printf("%s",exception);

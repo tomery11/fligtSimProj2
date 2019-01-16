@@ -13,5 +13,4 @@ add_executable(fligtSimProj2 main.cpp ISearcher.h ISearchable.h CacheManager.cpp
         MyTestClientHandler.h MySerialServer.cpp MyParallelServer.cpp MyParallelServer.h
         PQueueSearcher.h Searcher.h Server.h Solver.h State.h
         State.cpp StatePriority.h StringReverser.h StringReverser.cpp Matrix.h Matrix.cpp DepthFirstSearch.h
-        BreadthFirstSearch.h MatrixSearchClient.h MatrixSearchClient.cpp Client.h BestFirstSearch.h AStar.h
-        MyClientHandler.cpp MyClientHandler.h)
+        BreadthFirstSearch.h MatrixSearchClient.h MatrixSearchClient.cpp Client.h BestFirstSearch.h)

@@ -25,6 +25,7 @@ class MyParallelServer : public Server {
     pthread_t threadID;
     //vector<pthread_t> threads;
     bool setStop = false;
+    bool doneListening = false;
     int socketDescriptor;
     struct ServerData *serverData;
 public:
@@ -32,6 +33,8 @@ public:
     int listenAccept(int time, struct ServerData *serverData1);
     virtual void open(int port, ClientHandler *clientHandler);
     virtual void stop();
+    void setDoneListening(bool done);
+    bool getDoneListening();
 
 };
 

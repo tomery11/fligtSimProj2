@@ -15,6 +15,7 @@ public:
     virtual State<T>* getInitialState()=0;
     virtual bool isGoal(State<T>*)=0;
     virtual set<State<T>*> getAllPossibleStates(State<T>*)=0;
+    virtual string getStrRepresentation() = 0;
     virtual ~ISearchable()= default;
 };
 

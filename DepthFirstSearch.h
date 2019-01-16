@@ -7,9 +7,9 @@
 
 #include <stack>
 #include "Searcher.h"
-template <class T>
 
-class DepthFirstSearch {
+template <class T>
+class DepthFirstSearch : public Searcher<State<T>>{
 private:
     stack<State<T>*> openList1;
     stack<State<T>*> openList2;
