@@ -9,8 +9,9 @@
 #include "CompareState.h"
 #include <queue>
 
+
 template <class T>
-class Searcher : public ISearcher<T> {
+class Searcher : public ISearcher {
 protected:
     set<State<T>*> done;
     int nodesEvaluated=0;
