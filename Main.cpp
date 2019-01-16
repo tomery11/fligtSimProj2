@@ -45,9 +45,10 @@ int Main::main(int argc, char *argv[]) {//todo no new
         //StringReverser stringRev;
         //Solver<string, string> *solver = &stringRev;
 
-        SolverToSearcherAdapter<Matrix, string> solver = SolverToSearcherAdapter<Matrix, string>();
+        SolverToSearcherAdapter<Matrix, string> solver1 = SolverToSearcherAdapter<Matrix, string>();
+        Solver<Matrix, string> *solver = &solver1;
 
-        SolverToSearcherAdapter(ISearcher *searcher)
+        //SolverToSearcherAdapter(ISearcher *searcher)
 
         //create client handler
         MyClientHandler client(solver, cacheManager);

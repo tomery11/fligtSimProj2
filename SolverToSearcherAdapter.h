@@ -38,6 +38,7 @@ string SolverToSearcherAdapter<Problem, Solution>::ProblemToString(Problem probl
     return std::__cxx11::string();
 }
 
+/*
 template<class Problem, class Solution>
 void SolverToSearcherAdapter<Problem, Solution>::setSearchable(ISearchable<Problem> *searchable) {
     this->searchable = searchable;
@@ -46,7 +47,7 @@ void SolverToSearcherAdapter<Problem, Solution>::setSearchable(ISearchable<Probl
 template<class Problem, class Solution>
 void SolverToSearcherAdapter<Problem, Solution>::setSearcher(ISearcher *searcher) {
     this->searcher = searcher;
-}
+}*/
 
 template<class Problem, class Solution>
 SolverToSearcherAdapter<Problem, Solution>::SolverToSearcherAdapter() {}
